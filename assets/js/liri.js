@@ -1,10 +1,36 @@
 
 var key = require("./keys.js");
+var inquirer = require("inquirer");
+var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
 var request = process.argv[2];
 var file = '../random.txt';
 console.log(key);
 
+var spotify = key.spotify;
+console.log(spotify);
+
+// Take in the command line arguments
+var nodeArgs = process.argv.slice(2);
+
+// inquirer
+//   .prompt([
+//     // Here we create a basic text prompt.
+//     {
+//       type: "input",
+//       message: "What is your username?",
+//       name: "username"
+//     } .then(function(inquirerResponse) {
+
+//     // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
+//     if (inquirerResponse.confirm && inquirerResponse.password==='password1') {
+//       console.log("\nWelcome " + inquirerResponse.username);
+//       console.log("Your " + inquirerResponse.stock + " is ready for trade!\n");
+//     }
+//     else {
+//       console.log("\nThat's okay " + inquirerResponse.username + ", come again when you know your password.\n");
+//     }
+//   });
 
 if (request === 'my-tweets'){
 
@@ -18,7 +44,7 @@ if (request === 'my-tweets'){
       access_token_secret: authTwitter.access_token_secret,
 
 	});
-	console.log(client);
+	// console.log(client);
 	var params = {screen_name: 'followtimm'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
 	  if (error){
@@ -35,11 +61,21 @@ if (request === 'my-tweets'){
 
 }
 
-// if (request === 'spotify-this-song'){
-// writeFile();
-// readFile();
+if (request === 'spotify-this-song'){
+	if (process.argv[3]!= null) {
+		spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+  			if (err) {
+    			return console.log('Error occurred: ' + err);
+  			}
+ 
+			console.log(data); 
+		});
 
-// }
+	} else {
+		console.log('Required to enter song name');
+	}
+
+}
 // if (request === 'movie-this'){
 // writeFile();
 // readFile();

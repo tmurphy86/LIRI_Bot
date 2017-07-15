@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/tmurphy86/LIRI_Bot#readme",
   "dependencies": {
+    "inquirer": "^3.2.0",
+    "node-spotify-api": "^1.0.5",
     "twitter": "^1.7.1"
   }
 }
