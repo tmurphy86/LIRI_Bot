@@ -1,0 +1,27 @@
+{
+  "name": "liribot",
+  "version": "1.0.0",
+  "description": "npm deps for liri js app",
+  "main": "/assets/js/liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmurphy86/LIRI_Bot.git"
+  },
+  "keywords": [
+    "siri",
+    "gwclass",
+    "app"
+  ],
+  "author": "Timothy Murphy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmurphy86/LIRI_Bot/issues"
+  },
+  "homepage": "https://github.com/tmurphy86/LIRI_Bot#readme",
+  "dependencies": {
+    "twitter": "^1.7.1"
+  }
+}
