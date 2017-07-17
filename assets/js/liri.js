@@ -3,39 +3,37 @@ var key = require("./keys.js");
 var inquirer = require("inquirer");
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
-var request = process.argv[2];
+var request = require("request");
+var fs = require("fs");
+var apiCall = process.argv[2];
 var file = '../random.txt';
-console.log(key);
-
+var logFile = '../log.txt';
 var spotify = key.spotify;
-console.log(spotify);
+var nodeArgs = process.argv.slice(3);
 
-// Take in the command line arguments
-var nodeArgs = process.argv.slice(2);
 
-// inquirer
-//   .prompt([
-//     // Here we create a basic text prompt.
-//     {
-//       type: "input",
-//       message: "What is your username?",
-//       name: "username"
-//     } .then(function(inquirerResponse) {
+// log(key);
+// log(spotify);
 
-//     // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
-//     if (inquirerResponse.confirm && inquirerResponse.password==='password1') {
-//       console.log("\nWelcome " + inquirerResponse.username);
-//       console.log("Your " + inquirerResponse.stock + " is ready for trade!\n");
-//     }
-//     else {
-//       console.log("\nThat's okay " + inquirerResponse.username + ", come again when you know your password.\n");
-//     }
-//   });
+if (apiCall === 'my-tweets'){
+	tweety();
+}
+if (apiCall === 'spotify-this-song'){
+	singy();
+}
+if (apiCall === 'movie-this'){
+	moviey();
+}
+if (apiCall === 'do-what-it-says'){
+	readFile();
+}
+else{
+	return log('Invalid API Call Input!');
+}
 
-if (request === 'my-tweets'){
-
+function tweety(){
 	var authTwitter = key.twitterKeys;
-	// console.log(authTwitter);
+	// log(authTwitter);
 
 	var client = new Twitter({
 	  consumer_key: authTwitter.consumer_key,
@@ -44,92 +42,147 @@ if (request === 'my-tweets'){
       access_token_secret: authTwitter.access_token_secret,
 
 	});
-	// console.log(client);
+	// log(client);
 	var params = {screen_name: 'followtimm'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
 	  if (error){
-	  	return console.log(error);
+	  	return log(error);
 	  }
 	  if (!error) {
 	  	for (var i = 0; i < 20; i++) {
-	  		console.log(tweets[i].text);
-	  		console.log(tweets[i].created_at);
+	  		log(tweets[i].text);
+	  		log(tweets[i].created_at);
 	  	}
-	   //  console.log(tweets);
+	   //  log(tweets);
 	  }
 	});
 
 }
 
-if (request === 'spotify-this-song'){
-	if (process.argv[3]!= null) {
-		spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-  			if (err) {
-    			return console.log('Error occurred: ' + err);
-  			}
- 
-			console.log(data); 
-		});
+function singy(){
 
-	} else {
-		console.log('Required to enter song name');
+	var song = 'The Sign';
+	if (process.argv[3]!= null) {
+		song = process.argv[3];
+	}
+	log(song);
+	spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
+		
+		if (err) {
+			return log('Error occurred: ' + err);
+		}
+		var dataCon = JSON.stringify(data);
+		var body = JSON.parse(dataCon);
+		var object = body.tracks.items;
+		log(object);
+
+		// log(object.album.artists[0]);
+		// log(object.name);
+		// log(object.preview_url);
+		
+		// log(object.album.name);
+	});
+}
+
+function moviey(){
+	var movieName = 'Mr. Nobody';
+	if (process.argv[3]!= null) {
+
+		// Create an empty variable for holding the movie name
+		var movieName = "";
+
+		// Loop through all the words in the node argument
+		// And do a little for-loop magic to handle the inclusion of "+"s
+		for (var i = 0; i < nodeArgs.length; i++) {
+
+		  if (i > 0 && i < nodeArgs.length) {
+
+		    movieName = movieName + "+" + nodeArgs[i];
+
+		  }else {
+
+		  	movieName += nodeArgs[i];
+
+		  }
+		}
+
 	}
 
+	// Then run a request to the OMDB API with the movie specified
+	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
+
+	// This line is just to help us debug against the actual URL.
+	log(queryUrl);
+
+	request(queryUrl, function(error, response, body) {
+
+	  // If the request is successful
+	  if (!error && response.statusCode === 200) {
+	  	var data = JSON.parse(body);
+	  	log("Title: " + data.Title);
+	  	log("Release Year: " + data.Year);
+	  	log("IMDB Rating: " + data.imdbRating);
+	  	log("Rotten Tomatoes: " + data.Ratings[1].Value);
+	  	log("Produced In: " + data.Country);
+	  	log("Language: " + data.Language);
+	  	log("Plot Summary: " + data.Plot);
+	  	log("Actors: " + data.Actors);
+
+	  }
+	});
 }
-// if (request === 'movie-this'){
-// writeFile();
-// readFile();
-
-// }
-// if (request === 'do-what-it-says'){
-// writeFile();
-// readFile();
-
-// }
-else{
-	return console.log('Invalid Input');
-}
 
 
+function readFile(){
 
-// function readFile(){
+	fs.readFile(file,'utf8', function(error, data){
 
-
-// 	fs.readFile(file,'utf8', function(error, data){
-
-// 		if (error){
-// 			return console.log(error);
-// 		}
+		if (error){
+			return log(error);
+		}else{
 		
-// 		var dataArr = data.split(',');
-// 		var wallet =0;
+			var dataArr = data.split(',');
+			// log(dataArr);
+			apiCall = dataArr[0];
+			log('New api call based on' + apiCall);
 
-// 		for (var i = 0; i < dataArr.length; i++) {
-// 		// console.log(dataArr[i].trim());
-// 		// console.log(wallet);
-// 		 wallet = (wallet + (parseFloat(dataArr[i].trim())));
-// 		}
+			if (apiCall === 'my-tweets'){
+				tweety();
+			}
+			if (apiCall === 'spotify-this-song'){
+				singy();
+			}
+			if (apiCall === 'movie-this'){
+				moviey();
+			}
+			else{
+			 log('Invalid API Call Input From Random File!');
+			}
+		}
 
-// 		return console.log('Total: '+(wallet.toFixed(2)));
+	});
+}
 
+function log(message) {
 
-// 	});
-// }
+   console.log(message);
+   writeFile(message);
 
+}
 
-// function writeFile(){
+function writeFile(message){
 
-// 	fs.appendFile(file, ','+money, function(err) {
+	fs.appendFile(logFile, message+'\n', function(err) {
 
-// 	  // If an error was experienced we say it.
-// 	  if (err) {
-// 	    console.log(err);
-// 	  }
+	  // If an error was experienced we say it.
+	  if (err) {
+	    log(err);
+	  }
 
-// 	  // If no error is experienced, we'll log the phrase "Content Added" to our node console.
-// 	  else {
-// 	    console.log("Account Adjusted: "+money);
-// 	  }
+	  // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+	  else {
+	    console.log('Logged');
+	  }
 
-// 	});
-// }
+	});
+}
