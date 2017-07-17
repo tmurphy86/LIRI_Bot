@@ -2,3 +2,56 @@ New api call based onspotify-this-song
 The Sign
 Invalid API Call Input From Random File!
 [object Object]
+http://www.omdbapi.com/?t=Goodbye&y=&plot=short&apikey=40e9cece
+Invalid API Call Input!
+Title: Goodbye
+Release Year: 2011
+IMDB Rating: 7.2
+Rotten Tomatoes: 100%
+Produced In: Iran
+Language: Persian
+Plot Summary: Story of a young lawyer in Tehran in search of a visa to leave the country, which is what Mohammad Rasoulof did during the winter of 2010/11.
+Actors: Leyla Zareh, Fereshteh Sadre Orafaiy, Shahab Hosseini, Roya Taymourian
+Invalid API Call Input!
+[object Object]
+Invalid API Call Input!
+[object Object]
+Invalid API Call Input!
+Invalid API Call Input!
+Invalid API Call Input!
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property '0' of undefined
+Invalid API Call Input!
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'album_type' of undefined
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'album_type' of undefined
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'artists' of undefined
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'artists' of undefined
+Invalid API Call Input!
+Invalid API Call Input!
+Invalid API Call Input!
+Error occurred: SyntaxError: Unexpected token u in JSON at position 0
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'items' of undefined
+Invalid API Call Input!
+Error occurred: SyntaxError: Unexpected token u in JSON at position 0
+Invalid API Call Input!
+Error occurred: TypeError: Cannot read property 'artists' of undefined
+Error occurred: TypeError: Cannot read property '0' of undefined
+New api call based onspotify-this-song
+Artist: Harry Styles
+Song: Sign of the Times
+Preview: https://p.scdn.co/mp3-preview/9801b9239ad1b833f1317574ee55b9d7b8426ff1?cid=3b00b6be2c3c473eb2d6c64eac8879b5
+Album: Sign of the Times
+New api call based onspotify-this-song
+Artist: Harry Styles
+Song: Sign of the Times
+Preview: https://p.scdn.co/mp3-preview/9801b9239ad1b833f1317574ee55b9d7b8426ff1?cid=3b00b6be2c3c473eb2d6c64eac8879b5
+Album: Sign of the Times
+Artist: Meghan Trainor
+Song: All About That Bass
+Preview: https://p.scdn.co/mp3-preview/25128e3ab7e61b593d5f15ab601369bc83bd9c5e?cid=3b00b6be2c3c473eb2d6c64eac8879b5
+Album: All About That Bass

@@ -18,13 +18,13 @@ var nodeArgs = process.argv.slice(3);
 if (apiCall === 'my-tweets'){
 	tweety();
 }
-if (apiCall === 'spotify-this-song'){
+else if (apiCall === 'spotify-this-song'){
 	singy();
 }
-if (apiCall === 'movie-this'){
+else if (apiCall === 'movie-this'){
 	moviey();
 }
-if (apiCall === 'do-what-it-says'){
+else if (apiCall === 'do-what-it-says'){
 	readFile();
 }
 else{
@@ -63,24 +63,40 @@ function singy(){
 
 	var song = 'The Sign';
 	if (process.argv[3]!= null) {
-		song = process.argv[3];
+		// song = process.argv[3];
+		var song = "";
+
+		// Loop through all the words in the node argument
+		// And do a little for-loop magic to handle the inclusion of "+"s
+		for (var i = 0; i < nodeArgs.length; i++) {
+
+		  if (i > 0 && i < nodeArgs.length) {
+
+		    song = song + "+" + nodeArgs[i];
+
+		  }else {
+
+		  	song += nodeArgs[i];
+
+		  }
+		}
 	}
-	log(song);
+	// log(song);
 	spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
 		
 		if (err) {
 			return log('Error occurred: ' + err);
 		}
-		var dataCon = JSON.stringify(data);
-		var body = JSON.parse(dataCon);
-		var object = body.tracks.items;
-		log(object);
+		// var dataCon = JSON.stringify(data);
+		// var body = JSON.parse(dataCon);
+		// console.log(object);
 
-		// log(object.album.artists[0]);
-		// log(object.name);
-		// log(object.preview_url);
-		
-		// log(object.album.name);
+		var object = data.tracks.items[0];
+		log('Artist: ' + object.album.artists[0].name);
+		log('Song: ' + object.name);
+		log('Preview: ' + object.preview_url);
+		log('Album: ' + object.album.name);
+
 	});
 }
 
@@ -149,10 +165,10 @@ function readFile(){
 			if (apiCall === 'my-tweets'){
 				tweety();
 			}
-			if (apiCall === 'spotify-this-song'){
+			else if (apiCall === 'spotify-this-song'){
 				singy();
 			}
-			if (apiCall === 'movie-this'){
+			else if (apiCall === 'movie-this'){
 				moviey();
 			}
 			else{
@@ -177,11 +193,6 @@ function writeFile(message){
 	  // If an error was experienced we say it.
 	  if (err) {
 	    log(err);
-	  }
-
-	  // If no error is experienced, we'll log the phrase "Content Added" to our node console.
-	  else {
-	    console.log('Logged');
 	  }
 
 	});
