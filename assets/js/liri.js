@@ -1,19 +1,15 @@
 
 var key = require("./keys.js");
 var inquirer = require("inquirer");
-var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
 var request = require("request");
 var fs = require("fs");
 var apiCall = process.argv[2];
 var file = '../random.txt';
 var logFile = '../log.txt';
-var spotify = key.spotify;
 var nodeArgs = process.argv.slice(3);
 
 
-// log(key);
-// log(spotify);
 
 if (apiCall === 'my-tweets'){
 	tweety();
@@ -32,17 +28,9 @@ else{
 }
 
 function tweety(){
-	var authTwitter = key.twitterKeys;
-	// log(authTwitter);
 
-	var client = new Twitter({
-	  consumer_key: authTwitter.consumer_key,
-	  consumer_secret: authTwitter.consumer_secret,
-      access_token_key: authTwitter.access_token_key,
-      access_token_secret: authTwitter.access_token_secret,
+	var client = new Twitter(key.twitterKeys);
 
-	});
-	// log(client);
 	var params = {screen_name: 'followtimm'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
 	  if (error){
@@ -53,7 +41,6 @@ function tweety(){
 	  		log(tweets[i].text);
 	  		log(tweets[i].created_at);
 	  	}
-	   //  log(tweets);
 	  }
 	});
 
@@ -81,15 +68,12 @@ function singy(){
 		  }
 		}
 	}
-	// log(song);
-	spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
+
+	key.spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
 		
 		if (err) {
 			return log('Error occurred: ' + err);
 		}
-		// var dataCon = JSON.stringify(data);
-		// var body = JSON.parse(dataCon);
-		// console.log(object);
 
 		var object = data.tracks.items[0];
 		log('Artist: ' + object.album.artists[0].name);
@@ -158,7 +142,6 @@ function readFile(){
 		}else{
 		
 			var dataArr = data.split(',');
-			// log(dataArr);
 			apiCall = dataArr[0];
 			log('New api call based on' + apiCall);
 

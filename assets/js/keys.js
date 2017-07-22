@@ -9,12 +9,7 @@ exports.twitterKeys = {
   access_token_secret: '94TNsaaUZCRafNQRBOJFjc9v0TwDscByCJIpcCGqpe1TE',
 }
 
-
-var spotify = new Spotify({
+exports.spotify = new Spotify({
   id: '3b00b6be2c3c473eb2d6c64eac8879b5',
   secret: '17040557e79b41caa02c64fd683fc56b'
 });
-
-exports.spotify = spotify;
-
-
